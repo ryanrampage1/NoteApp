@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--http://www.color-hex.com/color-palette/59414-->
+    <color name="colorPrimary">#fb6828</color>
+    <color name="colorPrimaryDark">#ec1010</color>
+    <color name="colorAccent">#f9f256</color>
+</resources>
