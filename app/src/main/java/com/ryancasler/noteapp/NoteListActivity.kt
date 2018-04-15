@@ -9,12 +9,14 @@ import com.ryancasler.noteapp.adapter.NoteRecyclerViewAdapter
 import com.ryancasler.noteapp.db.CipherHelper
 import com.ryancasler.noteapp.db.NoteDao
 import kotlinx.android.synthetic.main.activity_note_list.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 class NoteListActivity : AppCompatActivity() {
 
     private val helper = CipherHelper.instance
-
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private val recyclerViewAdapter = NoteRecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +32,12 @@ class NoteListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        // TODO: Dont make a new adapter every time.. look into adapter loading the data
         val noteDao = helper.map[NoteDao.NAME] as NoteDao
-        val notes = noteDao.getNotes()
-        recyclerView.adapter = NoteRecyclerViewAdapter(notes)
+
+        launch(UI) {
+            recyclerViewAdapter.notes = noteDao.getNotes().await()
+            recyclerViewAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -42,5 +46,7 @@ class NoteListActivity : AppCompatActivity() {
 
         val decoration = DividerItemDecoration(recyclerView.context, linearLayoutManager.orientation)
         recyclerView.addItemDecoration(decoration)
+
+        recyclerView.adapter = recyclerViewAdapter
     }
 }

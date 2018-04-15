@@ -1,7 +1,8 @@
 package com.ryancasler.noteapp.db
 
-import android.util.Log
 import com.ryancasler.noteapp.model.Note
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import net.sqlcipher.database.SQLiteDatabase
 
 /**
@@ -24,37 +25,34 @@ class NoteDao : Dao() {
         db.execSQL(create)
     }
 
-    fun addNote(note: String, author: String) {
+    fun addNote(note: String, author: String) = async {
         val insert = """
             INSERT INTO $TABLE_NAME ($TEXT, $AUTHOR)
             VALUES ('$note', '$author')
-            """
-        val cursor = dataBase.rawQuery(insert, null)
+        """
 
-        Log.d("this", cursor.count.toString())
+        dataBase.execSQL(insert)
     }
 
-    fun getNotes() : List<Note> {
-        val select = """
-            SELECT * FROM $TABLE_NAME
-            """
-        val cursor = dataBase.rawQuery(select, null)
+
+    fun getNotes() = async(CommonPool) {
+        val select = "SELECT * FROM $TABLE_NAME"
 
         val notes = mutableListOf<Note>()
 
-        cursor.moveToFirst()
+            val cursor = dataBase.rawQuery(select, null)
+            cursor.moveToFirst()
 
-        while (!cursor.isAfterLast) {
-            cursor.apply {
-                notes.add(Note(getInt(0), getString(1), getString(2)))
+            while (!cursor.isAfterLast) {
+                cursor.apply {
+                    notes.add(Note(getInt(0), getString(1), getString(2)))
+                }
+
+                cursor.moveToNext()
             }
 
-            cursor.moveToNext()
-        }
-
-        cursor.close()
-
-        return notes
+            cursor.close()
+            notes
     }
 
     companion object {

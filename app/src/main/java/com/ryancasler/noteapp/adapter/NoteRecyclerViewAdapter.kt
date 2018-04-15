@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.note_item.view.*
 /**
  * Created by Ryan Casler on 4/12/18
  */
-class NoteRecyclerViewAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteRecyclerViewAdapter.NoteHolder>()  {
+class NoteRecyclerViewAdapter(var notes: List<Note> = listOf()) : RecyclerView.Adapter<NoteRecyclerViewAdapter.NoteHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = NoteHolder(parent.inflateView(R.layout.note_item))
 

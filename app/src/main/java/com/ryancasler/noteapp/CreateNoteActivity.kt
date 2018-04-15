@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.ryancasler.noteapp.db.CipherHelper
 import com.ryancasler.noteapp.db.NoteDao
 import kotlinx.android.synthetic.main.activity_create_note.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 /**
  * Created by Ryan Casler on 4/12/18
@@ -19,9 +21,15 @@ class CreateNoteActivity : Activity() {
             val helper = CipherHelper.instance
 
             val noteDao = helper.map[NoteDao.NAME] as NoteDao
-            noteDao.addNote(noteEditText.text.toString(), authorEditText.text.toString())
 
-            finish()
+            launch(UI) {
+                noteDao.addNote(
+                        noteEditText.text.toString(),
+                        authorEditText.text.toString()
+                ).await()
+
+                finish()
+            }
         })
     }
 }
