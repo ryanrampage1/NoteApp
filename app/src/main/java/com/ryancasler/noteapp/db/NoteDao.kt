@@ -8,11 +8,9 @@ import net.sqlcipher.database.SQLiteDatabase
 /**
  * Created by Ryan Casler on 4/10/18
  */
-class NoteDao : Dao() {
+class NoteDao constructor(private val database: SQLiteDatabase) : Dao {
 
-    override fun update(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        TODO("Still on V1")
-    }
+    override fun update(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = TODO("Still on V1")
 
     override fun create(db: SQLiteDatabase) {
         val create = """
@@ -31,7 +29,7 @@ class NoteDao : Dao() {
             VALUES ('$note', '$author')
         """
 
-        dataBase.execSQL(insert)
+        database.execSQL(insert)
     }
 
 
@@ -40,19 +38,19 @@ class NoteDao : Dao() {
 
         val notes = mutableListOf<Note>()
 
-            val cursor = dataBase.rawQuery(select, null)
-            cursor.moveToFirst()
+        val cursor = database.rawQuery(select, null)
+        cursor.moveToFirst()
 
-            while (!cursor.isAfterLast) {
-                cursor.apply {
-                    notes.add(Note(getInt(0), getString(1), getString(2)))
-                }
-
-                cursor.moveToNext()
+        while (!cursor.isAfterLast) {
+            cursor.apply {
+                notes.add(Note(getInt(0), getString(1), getString(2)))
             }
 
-            cursor.close()
-            notes
+            cursor.moveToNext()
+        }
+
+        cursor.close()
+        notes
     }
 
     companion object {
