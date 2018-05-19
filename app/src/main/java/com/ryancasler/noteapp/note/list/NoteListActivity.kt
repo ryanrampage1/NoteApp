@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.ryancasler.noteapp.R
-import com.ryancasler.noteapp.adapter.NoteRecyclerViewAdapter
 import com.ryancasler.noteapp.base.BaseActivity
 import com.ryancasler.noteapp.model.Note
 import com.ryancasler.noteapp.note.create.CreateNoteActivity
