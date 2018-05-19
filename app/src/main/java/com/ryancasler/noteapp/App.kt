@@ -10,8 +10,6 @@ import javax.inject.Inject
 /**
  * Created by Ryan Casler on 4/12/18
  */
-
-// TODO Fix this to not use for context
 class App : Application(), HasActivityInjector {
 
     @Inject

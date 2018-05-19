@@ -1,5 +1,6 @@
 package com.ryancasler.noteapp
 
+import com.ryancasler.noteapp.note.NoteUIModule
 import dagger.Component
 import javax.inject.Singleton
 
