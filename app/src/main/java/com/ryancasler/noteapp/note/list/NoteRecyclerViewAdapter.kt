@@ -1,4 +1,4 @@
-package com.ryancasler.noteapp.adapter
+package com.ryancasler.noteapp.note.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

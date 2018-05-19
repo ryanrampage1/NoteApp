@@ -11,11 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".CreateNoteActivity" />
+        <activity android:name=".note.create.CreateNoteActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:name=".NoteListActivity"
+            android:name=".note.list.NoteListActivity"
             android:label="@string/title_activity_note_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
