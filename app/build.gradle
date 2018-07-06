@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 ext {
-    androidLibraryVersion = '26.1.0'
+    androidLibraryVersion = '27.1.0'
     kotlin_coroutines_version = '0.22.5'
     daggerVersion = '2.16'
 }

@@ -46,6 +46,6 @@ class NoteListActivity : BaseActivity<NoteListPresenter>(), NoteListView {
     }
 
     override fun showList(notes: List<Note>) {
-        recyclerViewAdapter.notes = notes
+        recyclerViewAdapter.submitList(notes)
     }
 }
