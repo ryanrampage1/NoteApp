@@ -19,14 +19,17 @@ class CipherHelper @Inject constructor(context: Context) : SQLiteOpenHelper(cont
     val db: SQLiteDatabase
         get() = getWritableDatabase(PASSWORD)
 
-    val map: Map<String, Dao>
-        get() = mapOf(
-            NoteDao.NAME to NoteDao(db)
-        )
+    // TODO: Look at this being lazy. Room magically dumps all the create calls in a create block
+    // and only creates the actual dao object when it is needed
+    val noteDao = NoteDao(db)
 
-    override fun onCreate(db: SQLiteDatabase) = map.values.forEach { it.create(db) }
+    val list = mutableListOf<Dao>(noteDao)
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = map.values.forEach { it.update(db, oldVersion, newVersion) }
+    override fun onCreate(db: SQLiteDatabase)
+            = list.forEach { it.create(db) }
+
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int)
+            = list.forEach { it.update(db, oldVersion, newVersion) }
 
     companion object {
         private const val DATABASE_NAME = "test"
